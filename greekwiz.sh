@@ -47,7 +47,7 @@ all() { \
 		printf "Please give the name of %s: " "$letter" ; read -r guess
 		user=$(echo "$guess" | tr '[:upper:]' '[:lower:]')
 		[ "$user" =  "$name" ] && printf "You are correct.\n" || printf "Ughh, the correct name was %s.\n" "$name"
-	done ;}
+	done;}
 
 vowels() { \
 	for vowel in $(echo "α,ε,η,ι,ο,ω,υ" | sed 's/,/\n/g' | shuf);
@@ -58,14 +58,23 @@ vowels() { \
 		printf "Please give the name of %s: " "$vowel" ; read -r guess
 		user=$(echo "$guess" | tr '[:upper:]' '[:lower:]')
 		[ "$user" =  "$name" ] && printf "You are correct.\n" || printf "Ughh, the correct name was %s.\n" "$name"
-	done ;}
+	done;}
 
 dipthongs() { \
-	for dip in $(echo "$dipthongs" | cut -d ';' -f 1 | sed 's/,/\n/g' | shuf);
+	choice="yes"
+	while [ "$choice" = "yes" ];
 	do
-		pron=$(echo "$dipthongs" | grep "$dip" | cut -d ';' -f 2 | xargs)
-		printf "%s is pronounced as %s\n" "$dip" "$pron"
-	done ;}
+		for dip in $(echo "$dipthongs" | cut -d ';' -f 1 | sed 's/,/\n/g' | shuf); do
+			pron=$(echo "$dipthongs" | grep "$dip" | cut -d ';' -f 2 | xargs)
+			printf "%s is pronounced as %s\n" "$dip" "$pron"
+			printf "Would you like to continue?\n" ; read -r yn
+			case $yn in
+				[Yy][Ee][Ss]* ) choice="yes";;
+				[Nn][Oo]* ) echo "Quitting..."; exit;;
+				*) printf "Please answer Yes or No"
+			esac;
+		done;
+	done;}
 
 list() { \
 	echo "$alphabet" | sed 's/;/ /g' | less ;}
