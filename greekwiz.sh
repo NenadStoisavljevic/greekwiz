@@ -39,51 +39,51 @@ dipthongs="αι;	aisle;
 ηυ;	ĕh-oo"
 
 all() { \
-	for letter in $(echo "$alphabet" | cut -d ';' -f 1 | sed '1d;s/,/\n/g' | shuf);
-	do
-		# Grep the corresponding name of each letter from the for loop.
-		name=$(echo "$alphabet" | grep "$letter" | cut -d ';' -f 3 | xargs)
+    for letter in $(echo "$alphabet" | cut -d ';' -f 1 | sed '1d;s/,/\n/g' | shuf);
+    do
+	# Grep the corresponding name of each letter from the for loop.
+	name=$(echo "$alphabet" | grep "$letter" | cut -d ';' -f 3 | xargs)
 
-		printf "Please give the name of %s: " "$letter" ; read -r guess
-		user=$(echo "$guess" | tr '[:upper:]' '[:lower:]')
-		[ "$user" =  "$name" ] && printf "You are correct.\n" || printf "Ughh, the correct name was %s.\n" "$name"
-	done;}
+	printf "Please give the name of %s: " "$letter"; read -r guess
+	user=$(echo "$guess" | tr '[:upper:]' '[:lower:]')
+	[ "$user" =  "$name" ] && printf "You are correct.\n" || printf "Ughh, the correct name was %s.\n" "$name"
+    done; }
 
 vowels() { \
-	for vowel in $(echo "α,ε,η,ι,ο,ω,υ" | sed 's/,/\n/g' | shuf);
-	do
-		# Grep the corresponding name of each vowel from the for loop.
-		name=$(echo "$alphabet" | grep "$vowel" | cut -d ';' -f 3 | xargs)
+    for vowel in $(echo "α,ε,η,ι,ο,ω,υ" | sed 's/,/\n/g' | shuf);
+    do
+	# Grep the corresponding name of each vowel from the for loop.
+	name=$(echo "$alphabet" | grep "$vowel" | cut -d ';' -f 3 | xargs)
 
-		printf "Please give the name of %s: " "$vowel" ; read -r guess
-		user=$(echo "$guess" | tr '[:upper:]' '[:lower:]')
-		[ "$user" =  "$name" ] && printf "You are correct.\n" || printf "Ughh, the correct name was %s.\n" "$name"
-	done;}
+	printf "Please give the name of %s: " "$vowel"; read -r guess
+	user=$(echo "$guess" | tr '[:upper:]' '[:lower:]')
+	[ "$user" =  "$name" ] && printf "You are correct.\n" || printf "Ughh, the correct name was %s.\n" "$name"
+    done; }
 
 dipthongs() { \
-	choice="yes"
-	while [ "$choice" = "yes" ];
-	do
-		for dip in $(echo "$dipthongs" | cut -d ';' -f 1 | sed 's/,/\n/g' | shuf); do
-			pron=$(echo "$dipthongs" | grep "$dip" | cut -d ';' -f 2 | xargs)
-			printf "%s is pronounced as %s\n" "$dip" "$pron"
-			printf "Would you like to continue?\n" ; read -r yn
-			case $yn in
-				[Yy][Ee][Ss]* ) choice="yes";;
-				[Nn][Oo]* ) echo "Quitting..."; exit;;
-				*) printf "Please answer Yes or No"
-			esac;
-		done;
-	done;}
+    choice="yes"
+    while [ "$choice" = "yes" ];
+    do
+        for dip in $(echo "$dipthongs" | cut -d ';' -f 1 | sed 's/,/\n/g' | shuf); do
+	    pron=$(echo "$dipthongs" | grep "$dip" | cut -d ';' -f 2 | xargs)
+	    printf "%s is pronounced as %s\n" "$dip" "$pron"
+	    printf "Would you like to continue?\n"; read -r yn
+	    case $yn in
+	        [Yy][Ee][Ss]* ) choice="yes";;
+		[Nn][Oo]* ) echo "Quitting..."; exit;;
+		*) printf "Please answer Yes or No"
+	    esac;
+        done;
+    done; }
 
 list() { \
-	echo "$alphabet" | sed 's/;/ /g' | less ;}
+    echo "$alphabet" | sed 's/;/ /g' | less; }
 
 case "$1" in
-	all) all ;;
-	vowels) vowels ;;
-	dipthongs ) dipthongs ;;
-	ls ) list ;;
+	all) all;;
+	vowels) vowels;;
+	dipthongs ) dipthongs;;
+	ls ) list;;
 	*) cat << EOF
 greekwiz: learn the ancient Greek alphabet straight from the
 command line, including offline availability.
