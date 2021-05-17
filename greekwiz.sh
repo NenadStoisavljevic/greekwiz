@@ -39,10 +39,9 @@ dipthongs="αι;	aisle;
 ηυ;	ĕh-oo"
 
 all() { \
-	for i in $(seq 1 24);
+	for letter in $(echo "$alphabet" | cut -d ';' -f 1 | sed '1d;s/,/\n/g' | shuf);
 	do
-		# Shuffle both lower and uppercase Greek letters.
-        	letter=$(echo "$alphabet" | cut -d ';' -f 1 | sed '1d;s/,/\n/g' | shuf -n 1)
+		# Grep the corresponding name of each letter from the for loop.
 		name=$(echo "$alphabet" | grep "$letter" | cut -d ';' -f 3 | xargs)
 
 		printf "Please give the name of %s: " "$letter" ; read -r guess
@@ -51,10 +50,9 @@ all() { \
 	done ;}
 
 vowels() { \
-	for i in $(seq 1 7);
+	for vowel in $(echo "α,ε,η,ι,ο,ω,υ" | sed 's/,/\n/g' | shuf);
 	do
-		# Shuffle the vowels of the Greek alphabet.
-        	vowel=$(echo "α,ε,η,ι,ο,ω,υ" | sed 's/,/\n/g' | shuf -n 1)
+		# Grep the corresponding name of each vowel from the for loop.
 		name=$(echo "$alphabet" | grep "$vowel" | cut -d ';' -f 3 | xargs)
 
 		printf "Please give the name of %s: " "$vowel" ; read -r guess
@@ -63,11 +61,10 @@ vowels() { \
 	done ;}
 
 dipthongs() { \
-	for i in $(seq 1 8);
+	for dip in $(echo "$dipthongs" | cut -d ';' -f 1 | sed 's/,/\n/g' | shuf);
 	do
-        	dipthong=$(echo "$dipthongs" | cut -d ';' -f 1 | sed 's/,/\n/g' | shuf -n 1)
-		pron=$(echo "$dipthongs" | grep "$dipthong" | cut -d ';' -f 2 | xargs)
-		printf "%s is pronounced as %s\n" "$dipthong" "$pron"
+		pron=$(echo "$dipthongs" | grep "$dip" | cut -d ';' -f 2 | xargs)
+		printf "%s is pronounced as %s\n" "$dip" "$pron"
 	done ;}
 
 list() { \
