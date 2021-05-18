@@ -61,19 +61,18 @@ vowels() { \
     done; }
 
 dipthongs() { \
-    choice="yes"
-    while [ "$choice" = "yes" ];
+    for dip in $(echo "$dipthongs" | cut -d ';' -f 1 | sed 's/,/\n/g' | shuf);
     do
-        for dip in $(echo "$dipthongs" | cut -d ';' -f 1 | sed 's/,/\n/g' | shuf); do
-	    pron=$(echo "$dipthongs" | grep "$dip" | cut -d ';' -f 2 | xargs)
-	    printf "%s is pronounced as %s\n" "$dip" "$pron"
-	    printf "Would you like to continue?\n"; read -r yn
-	    case $yn in
-	        [Yy][Ee][Ss]* ) choice="yes";;
-		[Nn][Oo]* ) echo "Quitting..."; exit;;
-		*) printf "Please answer Yes or No"
-	    esac;
-        done;
+        pron=$(echo "$dipthongs" | grep "$dip" | cut -d ';' -f 2 | xargs)
+        printf "%s is pronounced as %s.\n" "$dip" "$pron"
+	printf "Would you like to continue? [y/N]\n"; read -r choice
+	while true; do
+            case $choice in
+	        [Yy]*) break;;
+	        [Nn]*) exit 0;;
+	        *) printf "Invalid, please try again.\n"; read -r choice;;
+            esac
+	done
     done; }
 
 list() { \
