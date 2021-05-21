@@ -3,46 +3,46 @@
 # Visit this site for more about the Greek alphabet
 # https://daedalus.umkc.edu/FirstGreekBook/JWW_FGB1.html
 
-alphabet="Form;	Phonetic Value;		Name;
-Α,α;	papa,father;		alpha;
-Β,β;	bed;			beta;
-Γ,γ;	go,sing;		gamma;
-Δ,δ;	do;			delta;
-Ε,ε;	met;			epsilon;
-Ζ,ζ;	adze;			zeta;
-Η,η;	prey;			eta;
-Θ,θ;	thin;			theta;
-Ι,ι;	pin,machine;		iota;
-Κ,κ;	kill;			kappa;
-Λ,λ;	land;			lambda;
-Μ,μ;	men;			mu;
-Ν,ν;	now;			nu;
-Ξ,ξ;	wax;			xi;
-Ο,ο;	obey;			omicron;
-Π,π;	pet;			pi;
-Ρ,ρ;	run;			rho;
-Σ,σ,ς;	sit;			sigma;
-Τ,τ;	tell;			tau;
-Υ,υ;	French u, German ό;	upsilon;
-Φ,φ;	graphic;		phi;
-Χ,χ;	German buch;		chi;
-Ψ,ψ;	hips;			psi;
-Ω,ω;	tone;			omega;"
+alphabet="Form : Name : Phonetic Value
+Α α : alpha : papa, father
+Β β : beta : bed
+Γ γ : gamma : go, sing
+Δ δ : delta : do
+Ε ε : epsilon : met
+Ζ ζ : zeta : adze
+Η η : eta : prey
+Θ θ : theta : thin
+Ι ι : iota : pin, machine
+Κ κ : kappa : kill
+Λ λ : lambda : land
+Μ μ : mu : men
+Ν ν : nu : now
+Ξ ξ : xi : wax
+Ο ο : omicron : obey
+Π π : pi : pet
+Ρ ρ : rho : run
+Σ σ/ς : sigma : sit
+Τ τ : tau : tell
+Υ υ : upsilon : French u, German ό
+Φ φ : phi : graphic
+Χ χ : chi : German buch
+Ψ ψ : psi : hips
+Ω ω : omega : tone"
 
-dipthongs="αι;	aisle;
-αυ;	ou in hour;
-ει;	eight;
-υι;	quit;
-οι;	oil;
-ου;	group;
-ευ;	ĕh-oo;
-ηυ;	ĕh-oo"
+dipthongs="αι : aisle
+αυ : ou in hour
+ει : eight
+υι : quit
+οι : oil
+ου : group
+ευ : ĕh-oo
+ηυ : ĕh-oo"
 
 all() { \
-    for letter in $(echo "$alphabet" | cut -d ';' -f 1 | sed '1d;s/,/\n/g' | shuf);
+    for letter in $(echo "$alphabet" | cut -d ':' -f 1 | sed '1d;s/ /\n/g' | shuf);
     do
 	# Grep the corresponding name of each letter from the for loop.
-	name=$(echo "$alphabet" | grep "$letter" | cut -d ';' -f 3 | xargs)
+	name=$(echo "$alphabet" | grep "$letter" | cut -d ':' -f 2 | xargs)
 
 	printf "Please give the name of %s: " "$letter"; read -r guess
 	user=$(echo "$guess" | tr '[:upper:]' '[:lower:]')
@@ -50,10 +50,10 @@ all() { \
     done; }
 
 vowels() { \
-    for vowel in $(echo "α,ε,η,ι,ο,ω,υ" | sed 's/,/\n/g' | shuf);
+    for vowel in $(echo "α:ε:η:ι:ο:ω:υ" | sed 's/:/\n/g' | shuf);
     do
 	# Grep the corresponding name of each vowel from the for loop.
-	name=$(echo "$alphabet" | grep "$vowel" | cut -d ';' -f 3 | xargs)
+	name=$(echo "$alphabet" | grep "$vowel" | cut -d ':' -f 2 | xargs)
 
 	printf "Please give the name of %s: " "$vowel"; read -r guess
 	user=$(echo "$guess" | tr '[:upper:]' '[:lower:]')
@@ -61,9 +61,9 @@ vowels() { \
     done; }
 
 dipthongs() { \
-    for dip in $(echo "$dipthongs" | cut -d ';' -f 1 | sed 's/,/\n/g' | shuf);
+    for dip in $(echo "$dipthongs" | cut -d ':' -f 1 | sed 's/,/\n/g' | shuf);
     do
-        pron=$(echo "$dipthongs" | grep "$dip" | cut -d ';' -f 2 | xargs)
+        pron=$(echo "$dipthongs" | grep "$dip" | cut -d ':' -f 2 | xargs)
         printf "%s is pronounced as %s.\n" "$dip" "$pron"
 	printf "Would you like to continue? [y/N]\n"; read -r choice
 	while true; do
@@ -76,7 +76,7 @@ dipthongs() { \
     done; }
 
 list() { \
-    echo "$alphabet" | sed 's/;/ /g' | less; }
+    echo "$alphabet" | sed 's/:/	/g' | less; }
 
 case "$1" in
 	all) all;;
