@@ -3,31 +3,31 @@
 # Visit this site for more about the Greek alphabet
 # https://daedalus.umkc.edu/FirstGreekBook/JWW_FGB1.html
 
-alphabet="Form : Name : Phonetic Value
-Α α : alpha : papa, father
-Β β : beta : bed
-Γ γ : gamma : go, sing
-Δ δ : delta : do
-Ε ε : epsilon : met
-Ζ ζ : zeta : adze
-Η η : eta : prey
-Θ θ : theta : thin
-Ι ι : iota : pin, machine
-Κ κ : kappa : kill
-Λ λ : lambda : land
-Μ μ : mu : men
-Ν ν : nu : now
-Ξ ξ : xi : wax
-Ο ο : omicron : obey
-Π π : pi : pet
-Ρ ρ : rho : run
-Σ σ/ς : sigma : sit
-Τ τ : tau : tell
-Υ υ : upsilon : French u, German ό
-Φ φ : phi : graphic
-Χ χ : chi : German buch
-Ψ ψ : psi : hips
-Ω ω : omega : tone"
+alphabet="Letters : Name : Pronunciation
+Α α : alpha : al-fa
+Β β : beta : vee-ta
+Γ γ : gamma : wa-mma
+Δ δ : delta : thel-ta
+Ε ε : epsilon : ep-si-lon
+Ζ ζ : zeta : ze-ta
+Η η : eta : ee-ta
+Θ θ : theta : thee-ta
+Ι ι : iota : yo-ta
+Κ κ : kappa : ka-ppa
+Λ λ : lambda : lam-tha
+Μ μ : mu : me
+Ν ν : nu : nee
+Ξ ξ : xi : ksee
+Ο ο : omicron : o-mi-kron
+Π π : pi : pee
+Ρ ρ : rho : ro
+Σ σ/ς : sigma : si-wma
+Τ τ : tau : taf
+Υ υ : upsilon : eep-si-lon
+Φ φ : phi : fee
+Χ χ : chi : hee
+Ψ ψ : psi : psee
+Ω ω : omega : o-me-wa"
 
 dipthongs="αι : aisle
 αυ : ou in hour
