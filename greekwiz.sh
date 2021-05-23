@@ -38,12 +38,23 @@ all() { \
     done; }
 
 vowels() { \
-    for vowel in $(echo "α:ε:η:ι:ο:υ:ω" | sed 's/:/\n/g' | shuf);
+    for vowel in $(echo "α:ε:η:ι:υ:ο:ω" | sed 's/:/\n/g' | shuf);
     do
 	# Grep the corresponding name of each vowel from the for loop.
 	name=$(echo "$alphabet" | grep "$vowel" | cut -d ':' -f 2 | xargs)
 
 	printf "Please give the name of %s: " "$vowel"; read -r guess
+	user=$(echo "$guess" | tr '[:upper:]' '[:lower:]')
+	[ "$user" =  "$name" ] && printf "You are correct.\n" || printf "Ughh, the correct name was %s.\n" "$name"
+    done; }
+
+consonants() { \
+    for consonant in $(echo "β:γ:δ:ζ:θ:κ:λ:μ:ν:ξ:π:ρ:σ:τ:φ:χ:ψ" | sed 's/:/\n/g' | shuf);
+    do
+	# Grep the corresponding name of each vowel from the for loop.
+	name=$(echo "$alphabet" | grep "$consonant" | cut -d ':' -f 2 | xargs)
+
+	printf "Please give the name of %s: " "$consonant"; read -r guess
 	user=$(echo "$guess" | tr '[:upper:]' '[:lower:]')
 	[ "$user" =  "$name" ] && printf "You are correct.\n" || printf "Ughh, the correct name was %s.\n" "$name"
     done; }
@@ -56,9 +67,9 @@ pron() { \
 	printf "Would you like to continue? [y/N]\n"; read -r choice
 	while true; do
             case $choice in
-	        [Yy]*) break;;
-	        [Nn]*) exit 0;;
-	        *) printf "Invalid, please try again.\n"; read -r choice;;
+	        [Yy]*) break ;;
+	        [Nn]*) exit 0 ;;
+	        *) printf "Invalid, please try again.\n"; read -r choice ;;
             esac
 	done
     done; }
@@ -66,20 +77,22 @@ pron() { \
 list() { \
     echo "$alphabet" | sed 's/:/	/g' | less; }
 
-case "$1" in
-	all) all;;
-	vowels) vowels;;
-	consonants) consonants;;
-	ls ) list;;
-	*) cat << EOF
+gwinfo() { cat << EOF
 greekwiz: learn the ancient Greek alphabet straight from the
 command line, including offline availability.
 
 Options:
-  all		Practice studying all the letters of the Greek alphabet (24)
-  vowels	Learn only the vowels of the Greek alphabet (7)
-  dipthongs	Practice prounouncing the dipthongs (8 with 3 improper)
-  ls		Print a table of the form, phonetic value, and name
-  all else	Print this message
+  -a		Practice studying all the letters of the Greek alphabet (24)
+  -v		Learn only the vowels of the Greek alphabet (7)
+  -c		Learn only the consonants of the Greek alphabet (17)
+  -l		Print a table of the form, phonetic value, and name
 EOF
-esac
+}
+
+while getopts "avcl" o; do case "${o}" in
+	a) all || exit 1 ;;
+	v) vowels || exit 1 ;;
+	c) consonants || exit 1 ;;
+	l) list || exit 1 ;;
+	*) gwinfo; exit 1 ;;
+esac done
