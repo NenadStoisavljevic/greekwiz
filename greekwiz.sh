@@ -30,7 +30,7 @@ all() { \
     for letter in $(echo "$alphabet" | cut -d ':' -f 1 | sed '1d;s/ /\n/g' | shuf);
     do
 	# Grep the corresponding name of each letter from the for loop.
-	name=$(echo "$alphabet" | grep "$letter" | cut -d ':' -f 2 | xargs)
+	name=$(echo "$alphabet" | grep -w "$letter" | cut -d ':' -f 2 | xargs)
 
 	printf "Please give the name of %s: " "$letter"; read -r guess
 	user=$(echo "$guess" | tr '[:upper:]' '[:lower:]')
@@ -41,7 +41,7 @@ vowels() { \
     for vowel in $(echo "α:ε:η:ι:υ:ο:ω" | sed 's/:/\n/g' | shuf);
     do
 	# Grep the corresponding name of each vowel from the for loop.
-	name=$(echo "$alphabet" | grep "$vowel" | cut -d ':' -f 2 | xargs)
+	name=$(echo "$alphabet" | grep -w "$vowel" | cut -d ':' -f 2 | xargs)
 
 	printf "Please give the name of %s: " "$vowel"; read -r guess
 	user=$(echo "$guess" | tr '[:upper:]' '[:lower:]')
@@ -51,8 +51,8 @@ vowels() { \
 consonants() { \
     for consonant in $(echo "β:γ:δ:ζ:θ:κ:λ:μ:ν:ξ:π:ρ:σ:τ:φ:χ:ψ" | sed 's/:/\n/g' | shuf);
     do
-	# Grep the corresponding name of each vowel from the for loop.
-	name=$(echo "$alphabet" | grep "$consonant" | cut -d ':' -f 2 | xargs)
+	# Grep the corresponding name of each consonant from the for loop.
+	name=$(echo "$alphabet" | grep -w "$consonant" | cut -d ':' -f 2 | xargs)
 
 	printf "Please give the name of %s: " "$consonant"; read -r guess
 	user=$(echo "$guess" | tr '[:upper:]' '[:lower:]')
@@ -60,22 +60,22 @@ consonants() { \
     done; }
 
 pron() { \
-    for dip in $(echo "$dipthongs" | cut -d ':' -f 1 | sed 's/,/\n/g' | shuf);
+    for letter in $(echo "$alphabet" | cut -d ':' -f 1 | sed '1d;s/ /\n/g' | shuf);
     do
-        pron=$(echo "$dipthongs" | grep "$dip" | cut -d ':' -f 2 | xargs)
-        printf "%s is pronounced as %s.\n" "$dip" "$pron"
+        phonetic=$(echo "$alphabet" | grep -w "$letter" | cut -d ':' -f 3 | xargs)
+        printf "%s is pronounced as %s.\n" "$letter" "$phonetic"
 	printf "Would you like to continue? [y/N]\n"; read -r choice
 	while true; do
             case $choice in
-	        [Yy]*) break ;;
-	        [Nn]*) exit 0 ;;
+	        [Yy]*) clear; break ;;
+	        [Nn]*) echo "Exiting..."; exit 0 ;;
 	        *) printf "Invalid, please try again.\n"; read -r choice ;;
             esac
 	done
     done; }
 
 list() { \
-    echo "$alphabet" | sed 's/:/	/g' | less; }
+    echo "$alphabet" | column -ts ':' | less; }
 
 gwinfo() { cat << EOF
 greekwiz: learn the ancient Greek alphabet straight from the
@@ -85,14 +85,16 @@ Options:
   -a		Practice studying all the letters of the Greek alphabet (24)
   -v		Learn only the vowels of the Greek alphabet (7)
   -c		Learn only the consonants of the Greek alphabet (17)
+  -p		Learn the correct pronunciation of the Greek letters
   -l		Print a table of the form, phonetic value, and name
 EOF
 }
 
-while getopts "avcl" o; do case "${o}" in
+while getopts ":avcpl" o; do case "${o}" in
 	a) all || exit 1 ;;
 	v) vowels || exit 1 ;;
 	c) consonants || exit 1 ;;
+	p) pron || exit 1 ;;
 	l) list || exit 1 ;;
 	*) gwinfo; exit 1 ;;
 esac done
