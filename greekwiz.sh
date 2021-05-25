@@ -43,8 +43,8 @@ all() {
     do
         name=$(getname "$letter")
 	printf "Please give the name of %s: " "$letter"; read -r user
-	lower=$(echo "$user" | tr '[:upper:]' '[:lower:]')
-	[ "$lower" = "$(echo "$name" | grep -w "$lower")" ] && printf "Ughh, the correct name was %s.\n" "$name" || printf "You are correct.\n"
+	[ -z "$user" ] && lower="incorrect" || lower=$(echo "$user" | tr '[:upper:]' '[:lower:]')
+	[ "$lower" = "$(echo "$name" | grep -ow "$lower")" ] && printf "You are correct.\n" || printf "Ughh, the correct name was %s.\n" "$name"
     done }
 
 vowels() { \
