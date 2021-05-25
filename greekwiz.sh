@@ -59,20 +59,28 @@ consonants() { \
 	[ "$user" =  "$name" ] && printf "You are correct.\n" || printf "Ughh, the correct name was %s.\n" "$name"
     done; }
 
-pron() { \
+phonetics() { \
     for letter in $(echo "$alphabet" | cut -d ':' -f 1 | sed '1d;s/ /\n/g' | shuf);
     do
         phonetic=$(echo "$alphabet" | grep -w "$letter" | cut -d ':' -f 3 | xargs)
         printf "%s is pronounced as %s.\n" "$letter" "$phonetic"
-	printf "Would you like to continue? [y/N]\n"; read -r choice
-	while true; do
-            case $choice in
-	        [Yy]*) clear; break ;;
-	        [Nn]*) echo "Exiting..."; exit 0 ;;
-	        *) printf "Invalid, please try again.\n"; read -r choice ;;
-            esac
-	done
+	sleep 3
     done; }
+
+search() { \
+	item=$(echo "$alphabet" | grep -w "$term")
+	[ -z "$item" ] && printf "Invalid argument.\n" && exit 1
+
+	size=${#term}
+	echo "$term" "$size"
+
+	if [ "$size" = "2" ]; then
+		name=$(echo "$alphabet" | grep -w "$term" | cut -d ':' -f 2 | xargs)
+		printf "The name of %s is: %s.\n" "$term" "$name"
+	else
+		letter=$(echo "$alphabet" | grep -w "$term" | cut -d ':' -f 1 | xargs)
+		printf "The letters of %s is: %s.\n" "$term" "$letter"
+	fi }
 
 list() { \
     echo "$alphabet" | column -ts ':' | less; }
@@ -86,15 +94,17 @@ Options:
   -v		Learn only the vowels of the Greek alphabet (7)
   -c		Learn only the consonants of the Greek alphabet (17)
   -p		Learn the correct pronunciation of the Greek letters
+  -s		Search for the equivalents of either names or letters
   -l		Print a table of the form, phonetic value, and name
 EOF
 }
 
-while getopts ":avcpl" o; do case "${o}" in
+while getopts ":avcps:l" o; do case "${o}" in
 	a) all || exit 1 ;;
 	v) vowels || exit 1 ;;
 	c) consonants || exit 1 ;;
-	p) pron || exit 1 ;;
+	p) phonetics || exit 1 ;;
+	s) term="$OPTARG"; search || exit 1;;
 	l) list || exit 1 ;;
 	*) gwinfo; exit 1 ;;
 esac done
