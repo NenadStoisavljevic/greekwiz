@@ -72,21 +72,22 @@ search() { \
 	[ -z "$item" ] && printf "Invalid argument.\n" && exit 1
 
 	size=${#term}
-	echo "$term" "$size"
-
 	if [ "$size" = "2" ]; then
 		name=$(echo "$alphabet" | grep -w "$term" | cut -d ':' -f 2 | xargs)
 		printf "The name of %s is: %s.\n" "$term" "$name"
 	else
 		letter=$(echo "$alphabet" | grep -w "$term" | cut -d ':' -f 1 | xargs)
-		printf "The letters of %s is: %s.\n" "$term" "$letter"
+		printf "The letters of %s are: %s.\n" "$term" "$letter"
 	fi }
 
-list() { \
-    echo "$alphabet" | column -ts ':' | less; }
-
-gwinfo() { cat << EOF
-greekwiz: learn the ancient Greek alphabet straight from the
+while getopts ":avcps:l" o; do case "${o}" in
+	a) all ;;
+	v) vowels ;;
+	c) consonants ;;
+	p) phonetics ;;
+	s) term="$OPTARG" && search ;;
+	l) echo "$alphabet" | column -ts ':' | less ;;
+	*) echo "greekwiz: learn the ancient Greek alphabet straight from the
 command line, including offline availability.
 
 Options:
@@ -95,16 +96,6 @@ Options:
   -c		Learn only the consonants of the Greek alphabet (17)
   -p		Learn the correct pronunciation of the Greek letters
   -s		Search for the equivalents of either names or letters
-  -l		Print a table of the form, phonetic value, and name
-EOF
-}
+  -l		Print a table of the form, phonetic value, and name" && exit 1
 
-while getopts ":avcps:l" o; do case "${o}" in
-	a) all || exit 1 ;;
-	v) vowels || exit 1 ;;
-	c) consonants || exit 1 ;;
-	p) phonetics || exit 1 ;;
-	s) term="$OPTARG"; search || exit 1;;
-	l) list || exit 1 ;;
-	*) gwinfo; exit 1 ;;
 esac done
