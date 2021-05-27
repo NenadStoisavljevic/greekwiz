@@ -35,7 +35,13 @@ getletter() {
 getname() {
 	# Grep the corresponding name of the letter from arg.
 	name=$(echo "$alphabet" | grep -w "$1" | cut -d ':' -f 2 | xargs)
-	[ -z "$letter" ] && return 1 || printf "%s\n" "$name"
+	[ -z "$name" ] && return 1 || printf "%s\n" "$name"
+}
+
+getphonetic() {
+	# Grep the corresponding name of the letter from arg.
+	phonetic=$(echo "$alphabet" | grep -w "$letter" | cut -d ':' -f 3 | xargs)
+	[ -z "$phonetic" ] && return 1 || printf "%s\n" "$phonetic"
 }
 
 all() {
@@ -43,50 +49,46 @@ all() {
     do
         name=$(getname "$letter")
 	printf "Please give the name of %s: " "$letter"; read -r user
-	[ -z "$user" ] && lower="incorrect" || lower=$(echo "$user" | tr '[:upper:]' '[:lower:]')
-	[ "$lower" = "$(echo "$name" | grep -ow "$lower")" ] && printf "You are correct.\n" || printf "Ughh, the correct name was %s.\n" "$name"
+	[ -z "$user" ] && lower="empty" || lower=$(echo "$user" | tr '[:upper:]' '[:lower:]')
+	[ "$lower" = "$(echo "$name" | grep -ow "$lower")" ] && printf "You are correct.\n" || printf "Ughh, the correct name was: %s\n" "$name"
     done }
 
-vowels() { \
+vowels() {
     for vowel in $(echo "α:ε:η:ι:υ:ο:ω" | sed 's/:/\n/g' | shuf);
     do
-	# Grep the corresponding name of each vowel from the for loop.
-	name=$(echo "$alphabet" | grep -w "$vowel" | cut -d ':' -f 2 | xargs)
-
-	printf "Please give the name of %s: " "$vowel"; read -r guess
-	user=$(echo "$guess" | tr '[:upper:]' '[:lower:]')
-	[ "$user" =  "$name" ] && printf "You are correct.\n" || printf "Ughh, the correct name was %s.\n" "$name"
+        name=$(getname "$vowel")
+	printf "Please give the name of %s: " "$vowel"; read -r user
+	[ -z "$user" ] && lower="empty" || lower=$(echo "$user" | tr '[:upper:]' '[:lower:]')
+	[ "$lower" = "$(echo "$name" | grep -ow "$lower")" ] && printf "You are correct.\n" || printf "Ughh, the correct name was: %s\n" "$name"
     done }
 
-consonants() { \
+consonants() {
     for consonant in $(echo "β:γ:δ:ζ:θ:κ:λ:μ:ν:ξ:π:ρ:σ:τ:φ:χ:ψ" | sed 's/:/\n/g' | shuf);
     do
-	# Grep the corresponding name of each consonant from the for loop.
-	name=$(echo "$alphabet" | grep -w "$consonant" | cut -d ':' -f 2 | xargs)
-
-	printf "Please give the name of %s: " "$consonant"; read -r guess
-	user=$(echo "$guess" | tr '[:upper:]' '[:lower:]')
-	[ "$user" =  "$name" ] && printf "You are correct.\n" || printf "Ughh, the correct name was %s.\n" "$name"
+        name=$(getname "$consonant")
+	printf "Please give the name of %s: " "$consonant"; read -r user
+	[ -z "$user" ] && lower="empty" || lower=$(echo "$user" | tr '[:upper:]' '[:lower:]')
+	[ "$lower" = "$(echo "$name" | grep -ow "$lower")" ] && printf "You are correct.\n" || printf "Ughh, the correct name was: %s\n" "$name"
     done }
 
-phonetics() { \
+phonetics() {
     for letter in $(echo "$alphabet" | cut -d ':' -f 1 | sed '1d;s/ /\n/g' | shuf);
     do
-        phonetic=$(echo "$alphabet" | grep -w "$letter" | cut -d ':' -f 3 | xargs)
+        phonetic=$(getphonetic "$letter")
         printf "%s is pronounced as %s.\n" "$letter" "$phonetic"
 	sleep 3
     done }
 
-search() { \
+search() {
 	item=$(echo "$alphabet" | grep -w "$term")
 	[ -z "$item" ] && printf "Does not exist.\n" && exit 1
 
 	size=${#term}
 	if [ "$size" = "2" ]; then
-		name=$(echo "$alphabet" | grep -w "$term" | cut -d ':' -f 2 | xargs)
+		name=$(getname "$term")
 		printf "The name of %s is: %s.\n" "$term" "$name"
 	else
-		letter=$(echo "$alphabet" | grep -w "$term" | cut -d ':' -f 1 | xargs)
+		letter=$(getletter "$term")
 		printf "The letters of %s are: %s.\n" "$term" "$letter"
 	fi }
 
