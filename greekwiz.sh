@@ -80,16 +80,15 @@ phonetics() {
     done }
 
 search() {
-	item=$(echo "$alphabet" | grep -w "$term")
-	[ -z "$item" ] && printf "Does not exist.\n" && exit 1
+	lower=$(echo "$term" | tr '[:upper:]' '[:lower:]') && item=$(echo "$alphabet" | grep -ow "$lower")
+	[ -z "$item" ] && printf "Does not exist.\n" && exit 1 || size=${#term}
 
-	size=${#term}
 	if [ "$size" = "2" ]; then
-		name=$(getname "$term")
-		printf "The name of %s is: %s.\n" "$term" "$name"
+		name=$(getname "$item")
+		printf "The name of %s is: %s.\n" "$item" "$name"
 	else
-		letter=$(getletter "$term")
-		printf "The letters of %s are: %s.\n" "$term" "$letter"
+		letter=$(getletter "$item")
+		printf "The letters of %s are: %s.\n" "$item" "$letter"
 	fi }
 
 while getopts ":avcps:l" o; do case "${o}" in
