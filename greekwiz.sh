@@ -79,6 +79,13 @@ phonetics() {
 	sleep 3
     done }
 
+cpgreek() {
+	selected=$(echo "$alphabet" | cut -d ' ' -f 1-2 | sed '1d;s/ /\n/g' | dmenu -i -l 30 | sed 's/ .*//')
+	[ -z "$selected" ] && exit 1
+
+	printf "%s" "$selected" | xclip -selection clipboard && notify-send "'$selected' copied to clipboard."
+}
+
 search() {
 	lower=$(echo "$term" | tr '[:upper:]' '[:lower:]') && item=$(echo "$alphabet" | grep -ow "$lower")
 	[ -z "$item" ] && printf "Does not exist.\n" && exit 1 || size=${#term}
@@ -91,11 +98,12 @@ search() {
 		printf "The letters of %s are: %s.\n" "$item" "$letter"
 	fi }
 
-while getopts ":avcps:l" o; do case "${o}" in
+while getopts ":avcpms:l" o; do case "${o}" in
 	a) all ;;
 	v) vowels ;;
 	c) consonants ;;
 	p) phonetics ;;
+	m) cpgreek ;;
 	s) term="$OPTARG" && search ;;
 	l) echo "$alphabet" | column -ts ':' | less ;;
 	*) echo "greekwiz: learn the ancient Greek alphabet straight from the
@@ -106,6 +114,7 @@ Options:
   -v		Learn only the vowels of the Greek alphabet (7)
   -c		Learn only the consonants of the Greek alphabet (17)
   -p		Learn the correct pronunciation of the Greek letters
+  -m		Get a menu of Greek letters to copy
   -s		Search for the equivalents of either names or letters
   -l		Print a table of the form, phonetic value, and name" && exit 1
 
