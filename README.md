@@ -12,10 +12,15 @@ This is great for someone who is:
 
 The greekwiz runs via the command `sh greekwiz.sh [option]`.
 
-- `all` -- study all the letters of the alphabet
-- `vowels` -- only study the vowels of the alphabet
-- `dipthongs` -- learn the combinations of two vowels
-- `ls` -- print a table of the letters and their names
+#### Providing arguments
+
+- `-a` -- Study all 24 letters of the Greek alphabet.
+- `-v` -- Only study the vowels of the alphabet.
+- `-c` -- Only study the consonants of the alphabet.
+- `-p` -- Run through a list of the pronounciation of Greek letters.
+- `-m` -- Get a menu of Greek letters to copy.
+- `-s` -- Search for the equivalents of either names or letters.
+- `-l` -- Print a table of the form, phonetic value, and name.
 
 ## License
 
