@@ -79,8 +79,8 @@ phonetics() {
 	sleep 3
     done }
 
-cpgreek() {
-	selected=$(echo "$alphabet" | cut -d ' ' -f 1-2 | sed '1d;s/ /\n/g' | dmenu -i -l 30 | sed 's/ .*//')
+dmenugreek() {
+	selected=$(echo "$alphabet" | cut -d ' ' -f 1-4 | sed '1d' | dmenu -i -l 30 | cut -d ' ' -f 1-2)
 	[ -z "$selected" ] && exit 1
 
 	printf "%s" "$selected" | xclip -selection clipboard && notify-send "'$selected' copied to clipboard."
@@ -98,12 +98,12 @@ search() {
 		printf "The letters of %s are: %s.\n" "$item" "$letter"
 	fi }
 
-while getopts ":avcpms:l" o; do case "${o}" in
+while getopts ":avcpds:l" o; do case "${o}" in
 	a) all ;;
 	v) vowels ;;
 	c) consonants ;;
 	p) phonetics ;;
-	m) cpgreek ;;
+	d) dmenugreek ;;
 	s) term="$OPTARG" && search ;;
 	l) echo "$alphabet" | column -ts ':' | less ;;
 	*) echo "greekwiz: learn the ancient Greek alphabet straight from the
