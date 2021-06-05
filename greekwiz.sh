@@ -1,30 +1,30 @@
 #!/bin/sh
 
-alphabet="Letters : Name : Pronunciation
-Α α : alpha άλφα : al-fa
-Β β : beta βήτα : vee-ta
-Γ γ : gamma γάμμα : wa-mma
-Δ δ : delta δέλτα : thel-ta
-Ε ε : epsilon έψιλον : ep-si-lon
-Ζ ζ : zeta ζήτα : ze-ta
-Η η : eta ήτα : ee-ta
-Θ θ : theta θήτα : thee-ta
-Ι ι : iota ιώτα : yo-ta
-Κ κ : kappa κάππα : ka-ppa
-Λ λ : lambda λάμδα : lam-tha
-Μ μ : mu μι : me
-Ν ν : nu νι : nee
-Ξ ξ : xi ξι : ksee
-Ο ο : omikron όμικρον : o-mi-kron
-Π π : pi πι : pee
-Ρ ρ : rho ρο : ro
-Σ σ/ς : sigma σίγμα : si-wma
-Τ τ : tau ταυ : taf
-Υ υ : upsilon ύψιλον : eep-si-lon
-Φ φ : phi φι : fee
-Χ χ : chi χι : hee
-Ψ ψ : psi ψι : psee
-Ω ω : omega ωμέγα : o-me-wa"
+alphabet="Letters : Name : Pronunciation : Latin
+Α α : alpha άλφα : al-fa : A a
+Β β : beta βήτα : vee-ta : B b
+Γ γ : gamma γάμμα : wa-mma : G g
+Δ δ : delta δέλτα : thel-ta : D d
+Ε ε : epsilon έψιλον : ep-si-lon : E e
+Ζ ζ : zeta ζήτα : ze-ta : Z z
+Η η : eta ήτα : ee-ta : h
+Θ θ : theta θήτα : thee-ta : Th th
+Ι ι : iota ιώτα : yo-ta : I i
+Κ κ : kappa κάππα : ka-ppa : K k
+Λ λ : lambda λάμδα : lam-tha : L l
+Μ μ : mu μι : me : M m
+Ν ν : nu νι : nee : N n
+Ξ ξ : xi ξι : ksee : X x
+Ο ο : omikron όμικρον : o-mi-kron : O o
+Π π : pi πι : pee : P p
+Ρ ρ : rho ρο : ro : R r
+Σ σ/ς : sigma σίγμα : si-wma : S s
+Τ τ : tau ταυ : taf : T t
+Υ υ : upsilon ύψιλον : eep-si-lon : U u
+Φ φ : phi φι : fee : Ph ph
+Χ χ : chi χι : hee : Ch ch
+Ψ ψ : psi ψι : psee : Ps ps
+Ω ω : omega ωμέγα : o-me-wa : O o"
 
 getletter() {
 	# Grep the corresponding letter of the name from arg.
