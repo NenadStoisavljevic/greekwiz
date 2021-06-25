@@ -98,12 +98,12 @@ search() {
 		printf "The letters of %s are: %s.\n" "$item" "$letter"
 	fi }
 
-while getopts ":avcpds:l" o; do case "${o}" in
+while getopts ":avcpms:l" o; do case "${o}" in
 	a) all ;;
 	v) vowels ;;
 	c) consonants ;;
 	p) phonetics ;;
-	d) dmenugreek ;;
+	m) dmenugreek ;;
 	s) term="$OPTARG" && search ;;
 	l) echo "$alphabet" | column -ts ':' | less ;;
 	*) echo "greekwiz: learn the ancient Greek alphabet straight from the
